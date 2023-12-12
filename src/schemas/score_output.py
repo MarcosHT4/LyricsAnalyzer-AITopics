@@ -1,5 +1,5 @@
 from pydantic import BaseModel
 
-class SentimentScoreOutput(BaseModel):
+class ScoreOutput(BaseModel):
     score:float
     label:str

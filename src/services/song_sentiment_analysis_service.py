@@ -1,14 +1,14 @@
 from src.config import get_settings
 from transformers import pipeline
 from src.schemas.song_structure import SongStructure
-from src.schemas.sentiment_score_output import SentimentScoreOutput
-from src.schemas.song_section_sentiment import SongSectionSentiment
+from src.schemas.score_output import ScoreOutput
+from src.schemas.song_section_output import SongSectionOutput
 SETTINGS = get_settings()
 class SongSentimentAnalysisService:
     def __init__(self) -> None:
         self.pipe = pipeline("text-classification", model=SETTINGS.models_versions[0], top_k = None)
-    def get_overall_sentiment(self, song_structure_scores: list[SongSectionSentiment]) -> SongSectionSentiment:
-        overall_sentiment = SongSectionSentiment(section="Overall", scores=[])
+    def get_overall_sentiment(self, song_structure_scores: list[SongSectionOutput]) -> SongSectionOutput:
+        overall_sentiment = SongSectionOutput(section="Overall", scores=[])
         overall_positive_score = 0
         overall_negative_score = 0
         chorus_weight = 5
@@ -33,8 +33,8 @@ class SongSentimentAnalysisService:
             overall_positive_score /= total_sections
             overall_negative_score /= total_sections
 
-        overall_sentiment.scores.append(SentimentScoreOutput(label="POSITIVE", score=overall_positive_score))
-        overall_sentiment.scores.append(SentimentScoreOutput(label="NEGATIVE", score=overall_negative_score))
+        overall_sentiment.scores.append(ScoreOutput(label="POSITIVE", score=overall_positive_score))
+        overall_sentiment.scores.append(ScoreOutput(label="NEGATIVE", score=overall_negative_score))
 
         normalization_factor = 1 / (overall_positive_score + overall_negative_score)
         overall_sentiment.scores[0].score *= normalization_factor
@@ -46,13 +46,12 @@ class SongSentimentAnalysisService:
             
 
         
-    def predict(self, song_structure:SongStructure) -> SongSectionSentiment:
-        results:list[SongSectionSentiment] = []
+    def predict(self, song_structure:SongStructure) -> SongSectionOutput:
+        results:list[SongSectionOutput] = []
         for section in song_structure.sections:
-            print(section.lyrics)
             result = self.pipe(section.lyrics)
-            list_of_scores:list[SentimentScoreOutput] = [(SentimentScoreOutput(label = score['label'], score = score['score'])) for score in result[0]]
-            song_section_sentiment = SongSectionSentiment(section = section.section, scores = list_of_scores)
+            list_of_scores:list[ScoreOutput] = [(ScoreOutput(label = score['label'], score = score['score'])) for score in result[0]]
+            song_section_sentiment = SongSectionOutput(section = section.section, scores = list_of_scores)
             results.append(song_section_sentiment)        
         overall_sentiment = self.get_overall_sentiment(results)
         return overall_sentiment   
