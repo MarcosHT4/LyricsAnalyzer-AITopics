@@ -3,7 +3,8 @@ from src.config import get_settings
 from fastapi.middleware.cors import CORSMiddleware
 from src.routers import (
     sentiment,
-    emotion
+    emotion,
+    cover_description
 )
 
 SETTINGS = get_settings()
@@ -20,6 +21,7 @@ app.add_middleware(
 
 app.include_router(sentiment.router)
 app.include_router(emotion.router)
+app.include_router(cover_description.router)
 
 
 
