@@ -27,8 +27,7 @@ class SongEmotionAnalysisService:
             result = self.pipe(section.lyrics)
             list_of_scores:list[ScoreOutput] = [(ScoreOutput(label = score['label'], score = score['score'])) for score in result[0][:4] if score['label'] != 'neutral']
             song_section_sentiment = SongSectionOutput(section = section.section, scores = list_of_scores)
-            results.append(song_section_sentiment)
-        print(results)        
+            results.append(song_section_sentiment)      
         overall_result = self.get_overall_emotion(results)    
         return overall_result    
 
