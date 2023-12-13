@@ -28,7 +28,8 @@ class SongDivisionService:
             else:
                 seen_values.add(value)    
 
-        song_structure = SongStructure(sections=result)    
+        song_structure = SongStructure(sections=result)  
+        
 
         return song_structure
         

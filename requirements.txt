@@ -9,3 +9,4 @@ openai
 langchain
 transformers
 Pillow
+beautifulsoup4

@@ -17,12 +17,12 @@ class SongSentimentAnalysisService:
         for score in song_structure_scores:
             for sentiment_score in score.scores:
                 if sentiment_score.label == "POSITIVE":
-                    if score.section == "Chorus":
+                    if "Chorus" in score.section and score.section != "Pre-Chorus":
                         overall_positive_score += chorus_weight * sentiment_score.score
                     else:
                         overall_positive_score += sentiment_score.score
                 else:
-                    if score.section == "Chorus":
+                    if "Chorus" in score.section and score.section != "Pre-Chorus":
                         overall_negative_score += chorus_weight * sentiment_score.score
                     else:
                         overall_negative_score += sentiment_score.score
@@ -52,7 +52,7 @@ class SongSentimentAnalysisService:
             result = self.pipe(section.lyrics)
             list_of_scores:list[ScoreOutput] = [(ScoreOutput(label = score['label'], score = score['score'])) for score in result[0]]
             song_section_sentiment = SongSectionOutput(section = section.section, scores = list_of_scores)
-            results.append(song_section_sentiment)           
+            results.append(song_section_sentiment)               
         overall_sentiment = self.get_overall_sentiment(results)
         return overall_sentiment   
               
