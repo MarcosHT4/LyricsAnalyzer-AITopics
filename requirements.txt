@@ -10,3 +10,4 @@ langchain
 transformers
 Pillow
 beautifulsoup4
+sqlmodel

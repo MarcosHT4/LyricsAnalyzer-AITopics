@@ -11,6 +11,7 @@ from src.services.song_division_service import SongDivisionService
 from src.services.song_emotion_analysis_service import SongEmotionAnalysisService
 from src.services.genius_scrapping_service import GeniusScrappingService
 from src.schemas.song_section_output import SongSectionOutput
+from src.schemas.song_analysis_output import SongAnalysisOutput
 
 router = APIRouter()
 SETTINGS  = get_settings()
@@ -34,9 +35,10 @@ def get_genius_scrapping_service():
     return genius_scrapping_service
 
 @router.post("/emotion_url")
-async def analyze_emotion_by_url(song_url:str = Body(...), song_division = Depends(get_song_division_service), song_emotion = Depends(get_song_emotion_analysis_service),  genius_scrapping = Depends(get_genius_scrapping_service),client:httpx.AsyncClient = Depends(get_http_client)) -> SongSectionOutput:
+async def analyze_emotion_by_url(song_url:str = Body(...), song_division = Depends(get_song_division_service), song_emotion = Depends(get_song_emotion_analysis_service),  genius_scrapping = Depends(get_genius_scrapping_service),client:httpx.AsyncClient = Depends(get_http_client)) -> SongAnalysisOutput:
     start = time.time()
     song = await genius_scrapping.get_song_from_genius(song_url, client)
     song_structure_output = song_division.divide_song_into_sections(song.lyrics)
     song_emotions_output = song_emotion.predict(song_structure_output)
-    return song_emotions_output
+    output = SongAnalysisOutput(name=song.name, artist=song.artist, analysis=song_emotions_output)
+    return output

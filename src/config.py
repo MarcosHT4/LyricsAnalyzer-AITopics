@@ -15,7 +15,7 @@ class Settings(BaseSettings):
         "src/models/roberta-base-go_emotions",
         ["https://api.nvcf.nvidia.com/v2/nvcf/pexec/functions/8bf70738-59b9-4e5f-bc87-7ab4203be7a0",
          "https://api.nvcf.nvidia.com/v2/nvcf/pexec/status/"],
-        "gpt-4"]
+        "gpt-3.5-turbo-1106"]
     
 class SecretSettings(BaseSettings):
     openai_key:str

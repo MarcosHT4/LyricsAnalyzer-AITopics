@@ -9,7 +9,7 @@ SETTINGS = get_settings()
 SECRET_SETTINGS = get_secret_settings()
 class SongMeaningAnalysisService:
     def __init__(self) -> None:
-        self.llm = ChatOpenAI(model=SETTINGS.models_versions[3], openai_api_key=SECRET_SETTINGS.openai_key)
+        self.llm = ChatOpenAI(model=SETTINGS.models_versions[3], openai_api_key=SECRET_SETTINGS.openai_key, temperature=0.5)
         self.meaning_parser = get_song_meaning_parser()
         self.analysis_prompt_template = PromptTemplate(
             template=MEANING_PROMPT,
