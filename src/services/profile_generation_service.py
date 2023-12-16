@@ -8,16 +8,26 @@ class ProfileGenerationService:
         for song_profile in song_profiles:
             del song_profile.id
         for song_profile in song_profiles:
+            if(not song_profile.sentiment):
+                del song_profile.sentiment
+            if (not song_profile.emotion ):
+                del song_profile.emotion
+            if (not song_profile.meaning):
+                del song_profile.meaning
+            if (song_profile.image_description is None):
+                del song_profile.image_description            
             song_profile = song_profile.__dict__
             song_profile['name'] = song_profile['song_title']
             del song_profile['song_title']
             song_profile['artist'] = song_profile['artist_name']
+            print(song_profile)
+
 
         song_profiles = [SongFullAnalysisOutput(**song_profile.__dict__) for song_profile in song_profiles]  
 
 
-        song_sentiments = [song.sentiment for song in song_profiles]
-        song_emotions = [song.emotion for song in song_profiles]
+        song_sentiments = [song.sentiment for song in song_profiles if song.sentiment ]
+        song_emotions = [song.emotion for song in song_profiles if song.emotion]
         songs = [f"{song.name}-{song.artist}" for song in song_profiles]
 
         sentiment_profile = song_sentiment_analysis.get_overall_sentiment(song_sentiments)

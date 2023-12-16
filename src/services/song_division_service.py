@@ -1,14 +1,17 @@
 import re
 from src.schemas.song_structure import SongStructure
 from src.schemas.song_section import SongSection
+from fastapi import HTTPException
 class SongDivisionService:
     def divide_song_into_sections(self, song:str) -> SongStructure:
+        
        
         section_pattern = re.compile(r'\[([^]]+)\](.*?)(?=\[(?:\1|.*?)\]|$)', re.DOTALL | re.IGNORECASE)
 
 
         sections = re.findall(section_pattern, song)
         result:list[SongSection] = []
+
 
         for section_name, section_content in sections:
             section_type = section_name.strip()
@@ -29,6 +32,9 @@ class SongDivisionService:
                 seen_values.add(value)    
 
         song_structure = SongStructure(sections=result)  
+
+        if(song_structure.sections == []):
+            raise HTTPException(status_code=422, detail="Incorrect format")
         
 
         return song_structure

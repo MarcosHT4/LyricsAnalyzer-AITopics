@@ -20,4 +20,9 @@ class SongMeaningAnalysisService:
     def predict(self, song_structure:SongStructure) -> SongMeaningOutput:
         _input = self.analysis_prompt_template.format(sections=song_structure.sections)    
         output = self.llm.predict(_input)
-        return self.meaning_parser.parse(output)
+        try:
+            parsed = self.meaning_parser.parse(output)
+        except Exception as e:
+            parsed = SongMeaningOutput(sections=[])
+        return parsed    
+        

@@ -6,7 +6,10 @@ from src.schemas.song_input import SongInput
 class GeniusScrappingService:
     async def get_song_from_genius(self, song_url:str, client:httpx.AsyncClient) -> SongInput:
         req = client.build_request("GET", song_url)
-        response = await client.send(req)
+        try:
+            response = await client.send(req)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail="Malformed URL")
         if response.status_code != 200:
             raise HTTPException(status_code=400, detail="Song not found")
         html = response.text
