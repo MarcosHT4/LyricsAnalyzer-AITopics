@@ -1,3 +1,4 @@
 ./src/models/distilbert-base-uncased-finetuned-sst-2-english
 ./src/models/roberta-base-go_emotions
 ./frontend
+./db.sqlite3
