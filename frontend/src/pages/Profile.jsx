@@ -78,7 +78,7 @@ const Profile = () => {
                 <h2>Your overall sentiment is more {sentiment[0].score > sentiment[1].score ? "positive than negative" : "negative than positive"}</h2>
 
             </div>
-            <h2>3. Emotion Analysis</h2>
+            <h2>3. The emotion of your songs</h2>
             <div className="div__introduction">
                 <div className="div__sentiment-results" style={{ width: 1000, height: 400 }}>
                     {emotion.map((score, idx)  => (

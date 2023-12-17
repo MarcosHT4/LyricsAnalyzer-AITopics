@@ -13,6 +13,7 @@ from src.services.genius_scrapping_service import GeniusScrappingService
 from src.schemas.song_section_output import SongSectionOutput
 from src.schemas.song_input import SongInput
 from src.schemas.song_analysis_output import SongAnalysisOutput
+from src.schemas.execution import Execution
 from src.db import SongAnalysisProfile
 from src.db import get_session
 
@@ -41,7 +42,8 @@ async def analyze_sentiment_by_url(song_url:str = Body(..., embed=True), song_di
     song = await genius_scrapping.get_song_from_genius(song_url, client)
     song_structure_output = song_division.divide_song_into_sections(song.lyrics)
     sentiment_output = song_sentiment_analysis.predict(song_structure_output)
-    output = SongAnalysisOutput(name=song.name, artist=song.artist, analysis=sentiment_output)
+    execution = Execution(time_in_seconds=time.time() - start, models_used=[SETTINGS.models_names[0]], lyrics_char_length=len(song.lyrics), version_number=SETTINGS.revision)
+    output = SongAnalysisOutput(name=song.name, artist=song.artist, analysis=sentiment_output, execution=execution)
     profile = SongAnalysisProfile(song_title=song.name, artist_name=song.artist, sentiment=sentiment_output.dict())
     db_session.add(profile)
     db_session.commit()

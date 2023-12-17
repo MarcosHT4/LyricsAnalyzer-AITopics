@@ -141,7 +141,7 @@ const MeaningAnalysis = () => {
         <main>
             <h1>Full Analysis</h1>
             <div className="div__introduction">
-                <img src={fullAnalysis} alt="Meaning Analysis"
+                <img src={fullAnalysis} alt="Full Analysis"
                      width="700" height="400"/>
                 <p className="p__service-introduction">
                     Step into the realm of comprehensive musical exploration with our Full Song Analyzer—a

@@ -8,7 +8,7 @@ class Settings(BaseSettings):
         "DistilBERT Base Uncased FineTuned SST-2 - HuggingFace",
         "Roberta Base GO Emotions - SamLowe",
         "NeVa-22B - NVIDIA",
-        "GPT-4 - LangChain"
+        "GPT-3.5-Turbo-1106 - LangChain"
     ]
     models_versions:list = [
         "src/models/distilbert-base-uncased-finetuned-sst-2-english",

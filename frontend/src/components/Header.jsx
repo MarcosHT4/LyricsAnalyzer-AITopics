@@ -1,6 +1,6 @@
 import {AppBar, Container, Toolbar, Typography ,Box, Button} from "@mui/material";
 
-const pages = ['Sentiment', 'Emotion', 'Meaning', 'Analysis','Profile']
+const pages = ['Sentiment', 'Emotion', 'Meaning','Image-Description' ,'Analysis','Profile']
 import {useNavigate} from "react-router-dom";
 
 

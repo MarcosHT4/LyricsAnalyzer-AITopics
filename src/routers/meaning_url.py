@@ -13,6 +13,7 @@ from src.services.genius_scrapping_service import GeniusScrappingService
 from src.services.song_division_service import SongDivisionService
 from src.services.song_meaning_analysis_service import SongMeaningAnalysisService
 from src.schemas.song_analysis_output import SongAnalysisOutput
+from src.schemas.execution import Execution
 
 router = APIRouter()
 SETTINGS = get_settings()
@@ -41,5 +42,6 @@ async def analyze_song_meaning_by_url(song_url:str = Body(..., embed=True), song
     song = await genius_scrapping.get_song_from_genius(song_url, client)
     song_structure_output = song_division.divide_song_into_sections(song.lyrics)
     meaning_output = song_meaning_analysis.predict(song_structure_output)
-    output = SongAnalysisOutput(name=song.name, artist=song.artist, meaning=meaning_output)
+    execution = Execution(time_in_seconds=time.time() - start, models_used=[SETTINGS.models_names[3]], lyrics_char_length=len(song.lyrics), version_number=SETTINGS.revision)
+    output = SongAnalysisOutput(name=song.name, artist=song.artist, meaning=meaning_output, execution=execution)
     return output

@@ -23,6 +23,7 @@ from src.services.song_complete_analysis_service import SongCompleteAnalysisServ
 from sqlmodel import Session, select
 from src.db import SongAnalysisProfile
 from src.db import get_session
+from src.schemas.execution import Execution
 
 
 router = APIRouter()
@@ -68,13 +69,15 @@ def complete_song_analysis(song:SongInput = Body(...),image:UploadFile = File(..
     base64 = image_to_base64.convert_to_base64(image)
     image_description_output = image_description.get_image_description(base64, creativity)
     meaning_output = song_complete_analysis.predict(song.name, song.artist, song_structure_output, sentiment_output, emotion_output, image_description_output)
+    execution = Execution(time_in_seconds=time.time() - start, models_used=SETTINGS.models_names, lyrics_char_length=len(song.lyrics), version_number=SETTINGS.revision)
     output = SongFullAnalysisOutput(
         name=song.name,
         artist=song.artist,
         sentiment=sentiment_output,
         emotion=emotion_output,
         meaning=meaning_output,
-        image_description=image_description_output
+        image_description=image_description_output,
+        execution=execution,
     )
     profile = SongAnalysisProfile(
         song_title=song.name,

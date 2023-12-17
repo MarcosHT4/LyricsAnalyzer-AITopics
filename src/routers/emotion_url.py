@@ -14,6 +14,7 @@ from src.schemas.song_section_output import SongSectionOutput
 from src.schemas.song_analysis_output import SongAnalysisOutput
 from src.db import SongAnalysisProfile
 from src.db import get_session
+from src.schemas.execution import Execution
 
 router = APIRouter()
 SETTINGS  = get_settings()
@@ -42,7 +43,8 @@ async def analyze_emotion_by_url(song_url:str = Body(..., embed=True), song_divi
     song = await genius_scrapping.get_song_from_genius(song_url, client)
     song_structure_output = song_division.divide_song_into_sections(song.lyrics)
     song_emotions_output = song_emotion.predict(song_structure_output)
-    output = SongAnalysisOutput(name=song.name, artist=song.artist, analysis=song_emotions_output)
+    execution = Execution(time_in_seconds=time.time() - start, models_used=[SETTINGS.models_names[1]], lyrics_char_length=len(song.lyrics), version_number=SETTINGS.revision)
+    output = SongAnalysisOutput(name=song.name, artist=song.artist, analysis=song_emotions_output, execution=execution)
     profile = SongAnalysisProfile(song_title=song.name, artist_name=song.artist, emotion=song_emotions_output.dict())
     db_session.add(profile)
     db_session.commit()
