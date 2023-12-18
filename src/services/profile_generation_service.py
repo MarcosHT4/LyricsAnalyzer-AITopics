@@ -20,7 +20,6 @@ class ProfileGenerationService:
             song_profile['name'] = song_profile['song_title']
             del song_profile['song_title']
             song_profile['artist'] = song_profile['artist_name']
-            print(song_profile)
 
 
         song_profiles = [SongFullAnalysisOutput(**song_profile.__dict__) for song_profile in song_profiles]  

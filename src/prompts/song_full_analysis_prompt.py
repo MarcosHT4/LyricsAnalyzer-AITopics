@@ -7,5 +7,5 @@ Second, you will need to explain the meaning of each section, based on three var
 To be able to do this, you will be provided with three things: The overall sentiment of the song, which will contain two values: POSITIVE AND NEGATIVE, each one with a score from 0 to 1, and they both add up to 1. {sentiment}
 The other thing you will be provided with is the overall emotion of the song, which will contain the top three emotions of the song, and their scores, which add up to 1. {emotion}
 Finally, you will be provided with the overall meaning of the song's album cover, which will contain an overall meaning of what is seen in the album cover. {album_cover}
-The output you will provide, will be a list of explanations, one for each section. The output is defined as follows: {format_instructions}
-When you have the output with each section, add a final section called "overall" and explain the overall meaning of the song."""
+When you have the output with each section, add a final section called "overall" and explain the overall meaning of the song.
+The output you will provide, will be a list of explanations, one for each section. The output is defined as follows: {format_instructions}"""

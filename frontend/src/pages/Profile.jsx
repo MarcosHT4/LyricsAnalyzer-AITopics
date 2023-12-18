@@ -101,7 +101,7 @@ const Profile = () => {
 
                 </div>
 
-                <h2>Your favorite songs hide {emotion[0].label}, {emotion[1].label} and {emotion[2].label} within theirx lyrics</h2>
+                <h2>Your favorite songs hide {emotion[0].label}, {emotion[1].label} and {emotion[2].label} within their lyrics</h2>
 
             </div>
 
