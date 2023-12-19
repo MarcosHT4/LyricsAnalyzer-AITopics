@@ -16,7 +16,10 @@ class ImageToBase64Service:
         except UnidentifiedImageError:
             raise HTTPException(status_code=415, detail="Invalid image file")
         buffered = io.BytesIO()
-        img.save(buffered, format="JPEG")
+        try:
+            img.save(buffered, format="JPEG")
+        except OSError:
+            raise HTTPException(status_code=415, detail="PNG images are not supported")    
         img_str = base64.b64encode(buffered.getvalue())
         img_base64 = bytes("data:image/jpeg;base64,", encoding='utf-8') + img_str
         return img_base64
