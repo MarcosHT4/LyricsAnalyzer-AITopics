@@ -1,5 +1,6 @@
 from src.prompts.image_description_payload import get_image_description_payload
 import requests
+from fastapi import HTTPException 
 from src.config import (
     get_settings,
     get_secret_settings
@@ -25,6 +26,9 @@ class ImageDescriptionService:
             request_id = response.headers.get("NVCF-REQID")
             fetch_url = self.fetch_url_format + request_id
             response = session.get(fetch_url, headers=self.headers)
-        response.raise_for_status()
+        try:    
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            raise HTTPException(status_code=413, detail="The image resolution is too high, please upload a smaller image")
         response_body = response.json()
         return response_body["choices"][0]["message"]["content"]
