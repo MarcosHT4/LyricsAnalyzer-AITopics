@@ -34,8 +34,6 @@ class SongDivisionService:
         song_structure = SongStructure(sections=result)  
 
         if(song_structure.sections == []):
-            raise HTTPException(status_code=422, detail="Incorrect format")
-        
-
+            raise HTTPException(status_code=422, detail="Incorrect format, the format should be [section_name] section_content for each section Example: [Verse 1] This is the first verse [Chorus] This is the chorus")
         return song_structure
         

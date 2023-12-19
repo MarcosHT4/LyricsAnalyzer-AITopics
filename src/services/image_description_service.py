@@ -18,9 +18,9 @@ class ImageDescriptionService:
         self.fetch_url_format = SETTINGS.models_versions[2][1]
         
 
-    def get_image_description(self, img:str, creativity:float) -> str:
+    def get_image_description(self, img:str) -> str:
         session = requests.Session()
-        json_payload = get_image_description_payload(img, creativity)
+        json_payload = get_image_description_payload(img)
         response = session.post(self.url, headers=self.headers, json=json_payload)
         while response.status_code == 202:
             request_id = response.headers.get("NVCF-REQID")

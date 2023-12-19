@@ -28,9 +28,9 @@ def get_image_description_service():
 
 
 @router.post("/cover-description")
-def analyze_cover(file:UploadFile = File(...), creativity:float = 0.5,image_to_base64 = Depends(get_image_to_base64_service), image_description = Depends(get_image_description_service)) -> str:
+def analyze_cover(file:UploadFile = File(...),image_to_base64 = Depends(get_image_to_base64_service), image_description = Depends(get_image_description_service)) -> str:
     start = time.time()
     base64 = image_to_base64.convert_to_base64(file)
-    image_description_output = image_description.get_image_description(base64, creativity)
+    image_description_output = image_description.get_image_description(base64)
     return image_description_output
 

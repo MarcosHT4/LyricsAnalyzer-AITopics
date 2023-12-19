@@ -1,4 +1,4 @@
-def get_image_description_payload(image:str, temperature:float) -> dict:
+def get_image_description_payload(image:str) -> dict:
     return {
         "messages":[
         {
@@ -20,7 +20,7 @@ def get_image_description_payload(image:str, temperature:float) -> dict:
         "role": "assistant"
         }
     ],
-    "temperature": temperature,
+    "temperature": 0.5,
     "top_p": 0.7,
     "max_tokens": 512,
     "stream": False   
